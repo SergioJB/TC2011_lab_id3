@@ -47,6 +47,36 @@ double infoGain(attributeInnerMap Set,vector<attributeInnerMap> SubSetV){
 
 }
 
+class TreeID3{
+
+private:
+	struct node *root;
+	vector<string> samplesT;
+	vector<string> index;
+	map<string, vector<string> > dictionary;
+	char action;
+	vector<string> actionValues;
+
+public:
+
+	TreeID3(vector<string> samples, vector<string> indexAttribute, map<string,vector<string> > dictionaryMap): samplesT(samples), index(indexAttribute), dictionary(dictionaryMap) {
+		root = new node;
+		root->parent=NULL;
+		for(int i = 0; i<samplesT.size();i++){
+			for(int j=0; j<samplesT[i].length();j++){
+				if(samplesT[i][j] == ','){
+					samplesT[i][j]=' ';
+				}
+			}
+		}
+	}
+
+
+
+
+
+};
+
 int main(int argc, char *argv[]){
     string buffer, recov, eater,aux;
     char devourer;
@@ -151,28 +181,30 @@ int main(int argc, char *argv[]){
 	    getline(cin,buffer);
 	}
 
+	TreeID3 tree(samplesTrainings,indexAttribute,dictionaryMap);
+
 	std::cout << "finish...\n" << std::endl;
 
-	cout << "test of the entropy and info gain\n";
-	cout << "theorical Entropy(S) = - (9/14) Log2 (9/14) - (5/14) Log2 (5/14) = 0.940\n";
-	attributeInnerMap test1;
-	test1.first = 14;
-	test1.second["yes"]=9;
-	test1.second["no"]=5;
-	double res = entropy(test1);
-	cout << "H(S) = " << res << std::endl;
-	cout << "theorical Gain(S) = Entropy(S)-(8/14)*Entropy(Sweak)-(6/14)*Entropy(Sstrong) = 0.048\n";
-	attributeInnerMap test2, test3;
-	test2.first = 8;
-	test2.second["yes"]=6;
-	test2.second["no"]=2;
-	test3.first = 6;
-	test3.second["yes"]=3;
-	test3.second["no"]=3;
-	vector<attributeInnerMap> testSubSet;
-	testSubSet.push_back(test2);
-	testSubSet.push_back(test3);
-	res = infoGain(test1,testSubSet);
-	cout << "H(S) = " << res << std::endl;
+	// cout << "test of the entropy and info gain\n";
+	// cout << "theorical Entropy(S) = - (9/14) Log2 (9/14) - (5/14) Log2 (5/14) = 0.940\n";
+	// attributeInnerMap test1;
+	// test1.first = 14;
+	// test1.second["yes"]=9;
+	// test1.second["no"]=5;
+	// double res = entropy(test1);
+	// cout << "H(S) = " << res << std::endl;
+	// cout << "theorical Gain(S) = Entropy(S)-(8/14)*Entropy(Sweak)-(6/14)*Entropy(Sstrong) = 0.048\n";
+	// attributeInnerMap test2, test3;
+	// test2.first = 8;
+	// test2.second["yes"]=6;
+	// test2.second["no"]=2;
+	// test3.first = 6;
+	// test3.second["yes"]=3;
+	// test3.second["no"]=3;
+	// vector<attributeInnerMap> testSubSet;
+	// testSubSet.push_back(test2);
+	// testSubSet.push_back(test3);
+	// res = infoGain(test1,testSubSet);
+	// cout << "H(S) = " << res << std::endl;
 
 }
