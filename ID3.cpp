@@ -47,6 +47,33 @@ double infoGain(attributeInnerMap Set,vector<attributeInnerMap> SubSetV){
 
 }
 
+int toSplit(vector<string> index, map<string, vector<string> > dictionary, vector<vector<string> > samples, string action, vector<string> values){
+	int instances = samples.size();
+	vector<attributeInnerMap> SubSetV;
+	attributeInnerMap Set, aux;
+	Set.first=instances;
+	double maxGain = -1.0;
+	int indexInt = -1;
+	for(int i = 0; i < index.size()-1; i++){
+		int inst=0;
+		for (int j = 0; j < dictionary[index[i]].size(); j++)
+		{
+			int count = 0;
+			for (int k = 0; k < samples.size(); k++)
+			{
+				if(samples[k][i]==dictionary[index[i]][j]){
+					count++;
+				}
+			}
+			aux.second[dictionary[index[i]][j]] = count;
+			inst+=count;
+		}
+		aux.first = inst;
+	}
+
+
+}
+
 class TreeID3{
 
 private:
@@ -54,24 +81,38 @@ private:
 	vector<string> samplesT;
 	vector<string> index;
 	map<string, vector<string> > dictionary;
-	char action;
+	string action;
 	vector<string> actionValues;
+	vector<vector<string> > Samples;
 
 public:
 
 	TreeID3(vector<string> samples, vector<string> indexAttribute, map<string,vector<string> > dictionaryMap): samplesT(samples), index(indexAttribute), dictionary(dictionaryMap) {
 		root = new node;
 		root->parent=NULL;
+		root->answer=false;
+		root->type = 0;
+
 		for(int i = 0; i<samplesT.size();i++){
 			for(int j=0; j<samplesT[i].length();j++){
 				if(samplesT[i][j] == ','){
 					samplesT[i][j]=' ';
 				}
 			}
+			stringstream extract(samplesT[i]);
+			string aux;
+			vector<string> auxiliar;
+			while(extract >> aux){
+				auxiliar.push_back(aux);
+			}
+			Samples.push_back(auxiliar);
+			auxiliar.clear();
+		}
+		action = index[index.size()-1];
+		for(int i = 0; i<dictionary[action].size();i++){
+			actionValues.push_back(dictionary[action][i]);
 		}
 	}
-
-
 
 
 
